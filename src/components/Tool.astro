@@ -1,0 +1,81 @@
+---
+/**
+ * The interactive payday calculator. Server renders the shell; all behavior
+ * lives in src/scripts/tool.ts (the site's only client-side JS).
+ *
+ * DOM contract (used by tool.ts and the Playwright checks — keep in sync):
+ * #payday-date #frequency #semi-days-field #semi-days #tool-hint #results
+ * .year-tabs (buttons get id="year-YYYY") .extra-banner .shift-note
+ * .stat-remaining .stat-next .stat-total .stat-long-year (row hidden unless 27)
+ * .cal-grid → 12 .cal-month (.is-extra) with .payday-dot (.shifted)
+ * #btn-ics #btn-print #btn-card
+ */
+---
+
+<section id="tool" class="tool card" aria-label="Paycheck calendar calculator">
+  <form class="tool-form no-print" autocomplete="off" onsubmit="return false">
+    <div class="field">
+      <label for="payday-date">Your most recent payday</label>
+      <input type="date" id="payday-date" name="payday-date" required />
+    </div>
+    <div class="field">
+      <label for="frequency">How often you’re paid</label>
+      <select id="frequency" name="frequency">
+        <option value="biweekly" selected>Every 2 weeks (biweekly)</option>
+        <option value="weekly">Every week</option>
+        <option value="semimonthly">Twice a month (semimonthly)</option>
+        <option value="monthly">Once a month</option>
+      </select>
+    </div>
+    <div class="field" id="semi-days-field" hidden>
+      <label for="semi-days">Which two days?</label>
+      <select id="semi-days" name="semi-days">
+        <option value="fifteenth-last" selected>The 15th &amp; the last day</option>
+        <option value="first-fifteenth">The 1st &amp; the 15th</option>
+      </select>
+    </div>
+  </form>
+
+  <p id="tool-hint" class="tool-hint no-print">
+    👆 Enter your last payday and your whole year lights up — including the months that pay you an extra check.
+  </p>
+
+  <div id="results" hidden>
+    <div class="year-tabs no-print" role="tablist" aria-label="Calendar year"></div>
+    <p class="extra-banner" role="status"></p>
+    <p class="shift-note"></p>
+
+    <ul class="ledger">
+      <li>
+        <span class="label">Paychecks left this year</span>
+        <span class="dots"></span>
+        <span class="value stat-remaining"></span>
+      </li>
+      <li>
+        <span class="label">Next extra-paycheck month</span>
+        <span class="dots"></span>
+        <span class="value stat-next"></span>
+      </li>
+      <li>
+        <span class="label">Deposits landing this year</span>
+        <span class="dots"></span>
+        <span class="value stat-total"></span>
+      </li>
+      <li class="stat-long-year-row" hidden>
+        <span class="label">Heads up</span>
+        <span class="dots"></span>
+        <span class="value stat-long-year"></span>
+      </li>
+    </ul>
+
+    <div class="tool-actions no-print">
+      <button type="button" class="btn btn-primary" id="btn-ics">📅 Add paydays to my calendar</button>
+      <button type="button" class="btn btn-ghost" id="btn-print">🖨️ Print it</button>
+      <button type="button" class="btn btn-ghost" id="btn-card">📸 Download share card</button>
+    </div>
+
+    <div class="cal-grid"></div>
+  </div>
+</section>
+
+<script src="../scripts/tool.ts"></script>

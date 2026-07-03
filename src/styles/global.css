@@ -438,6 +438,119 @@ code {
   }
 }
 
+/* -------------------------------------------------------------------- faq */
+.faq details {
+  border: var(--hairline);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  padding: 0.8rem 1rem;
+  margin-block: 0.6rem;
+}
+.faq summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style-position: outside;
+}
+.faq details[open] summary {
+  color: var(--green-dark);
+  margin-bottom: 0.4rem;
+}
+
+/* ------------------------------------------------------------------- tool */
+.tool {
+  padding: clamp(1.2rem, 3.5vw, 2rem);
+}
+.tool-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+}
+.field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 0.35rem;
+}
+.field input,
+.field select {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid var(--hairline-c);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+  transition: border-color 0.12s ease;
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-tint);
+}
+.tool-hint {
+  margin-top: 1rem;
+  color: var(--ink-2);
+}
+#results {
+  margin-top: 1.4rem;
+}
+.extra-banner {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  line-height: 1.3;
+  max-width: none;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(120deg, var(--green-tint), transparent 70%);
+  border-left: 4px solid var(--green);
+  border-radius: var(--radius-sm);
+}
+.extra-banner strong {
+  color: var(--green-dark);
+}
+.shift-note {
+  max-width: none;
+  margin-top: 0.7rem;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--gold-tint);
+  border-left: 4px solid var(--gold);
+  border-radius: var(--radius-sm);
+}
+.shift-note:empty {
+  display: none;
+}
+.year-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.year-tab {
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--hairline-c);
+  background: var(--card);
+  font-weight: 600;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.year-tab.is-active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.tool .ledger {
+  margin-block: 1.2rem;
+}
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.6rem;
+}
+
 /* ------------------------------------------------------------------ print */
 @media print {
   .site-header,

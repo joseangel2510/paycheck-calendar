@@ -1,0 +1,192 @@
+---
+import Base from '../layouts/Base.astro';
+import Tool from '../components/Tool.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE_URL, SITE_NAME } from '../config';
+import { fridayFamilies, joinNames, fmtShort } from '../lib/scenarios';
+
+const year = 2026;
+const { a, b } = fridayFamilies(year);
+
+const faqItems = [
+  {
+    q: `Which months have 3 paychecks in ${year}?`,
+    a: `It depends on your personal payday schedule. If you're paid biweekly on Fridays, you're in one of two groups: paid the first Friday of ${year} → your extra-check months are ${joinNames(a.extraMonthNames)}; paid the second Friday → ${joinNames(b.extraMonthNames)}. Enter your last payday in the calculator above to see yours instantly.`,
+  },
+  {
+    q: 'Why do I get 3 paychecks in some months?',
+    a: 'Biweekly pay means 26 checks per year, but you budget across 12 months — which "expect" 24. Months are slightly longer than four weeks, so twice a year a month catches a third payday. It isn\'t a bonus from your employer; it\'s pure calendar math.',
+  },
+  {
+    q: 'Does everyone get the same 3-paycheck months?',
+    a: 'No. Your extra months depend on which week your paydays fall. Two coworkers paid biweekly on different Fridays get different 3-paycheck months, which is why generic lists in the news may not match your schedule.',
+  },
+  {
+    q: 'I\'m paid semimonthly (twice a month). Do I get 3-paycheck months?',
+    a: 'No — semimonthly schedules (like the 15th and the last day) pay exactly 24 times a year, two per month, so there\'s never an extra one. Only weekly (5-paycheck months) and biweekly (3-paycheck months) schedules produce them.',
+  },
+  {
+    q: `What are 27 pay periods, and does ${year} have them?`,
+    a: `Roughly every 11 years, a biweekly schedule fits 27 paydays into one calendar year instead of 26. Whether ${year} is that year depends on your anchor date — the calculator flags it automatically, and our 27 pay periods guide explains whether your paycheck shrinks.`,
+  },
+  {
+    q: 'Is the third paycheck taxed more?',
+    a: 'No. Withholding on each check is calculated per pay period, the same as always. Your third check is a normal paycheck — it just lands in a month where your fixed bills are already covered by the first two.',
+  },
+  {
+    q: 'What happens when my payday falls on a holiday or weekend?',
+    a: 'Most US employers deposit on the previous business day. PaydayCal applies that rule automatically using federal holidays — and even catches the sneaky case where a January 1 payday slides back into December, moving your bonus month.',
+  },
+  {
+    q: 'Is my third check really "extra" money?',
+    a: 'Functionally, yes — if you budget by month. Rent, utilities and subscriptions are covered by two checks, so the third has no bills assigned to it. That makes it the easiest money you\'ll ever redirect toward debt, savings, or something fun.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: `${SITE_NAME} — Paycheck Calendar Generator`,
+    url: SITE_URL,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description:
+      'Free paycheck calendar generator: enter your last payday and pay frequency to find your 3-paycheck months, export paydays to your calendar, and print your payday calendar.',
+  },
+];
+---
+
+<Base
+  title="3 Paycheck Months Calculator 2026 & 2027 | PaydayCal"
+  description="Enter your last payday and instantly see YOUR 3-paycheck months for 2026 and 2027 — with a personal payday calendar, calendar export and printable."
+  path="/"
+  schema={schema}
+  current="home"
+>
+  <div class="wrap">
+    <section class="hero">
+      <p class="kicker reveal">Free · instant · no sign-up</p>
+      <h1 class="reveal">Find your <em>3-paycheck</em> months</h1>
+      <p class="lede reveal">
+        Paid every two weeks? Twice a year, a month hands you a third check your budget never planned for. Enter your
+        last payday and see exactly which months are yours — this year and next.
+      </p>
+    </section>
+
+    <Tool />
+    <AdSlot />
+
+    <article class="prose">
+      <h2 id="what">What is a 3-paycheck month?</h2>
+      <p>
+        If you're paid <strong>biweekly</strong> — every other Friday for most US workers — you receive
+        <strong>26 paychecks a year</strong>. But monthly budgets assume two checks per month, which only accounts for
+        24. The two leftovers have to land somewhere, so twice a year a month catches
+        <strong>three paydays instead of two</strong>. That's a 3-paycheck month.
+      </p>
+      <p>
+        The third check is the closest thing to free money in personal finance: your rent, utilities, and subscriptions
+        are already covered by the first two checks, so check number three arrives with
+        <strong>no bills attached to it</strong>.
+      </p>
+
+      <h2 id="how">How the calculator works</h2>
+      <ol>
+        <li><strong>Enter your most recent payday</strong> — one date is all the math needs.</li>
+        <li><strong>Pick your pay frequency</strong> — every 2 weeks, weekly, twice a month, or monthly.</li>
+        <li>
+          <strong>Read your year at a glance</strong> — every payday mapped, extra-check months highlighted in gold,
+          holiday-shifted deposits marked, plus one-tap calendar export and a printable version.
+        </li>
+      </ol>
+
+      <h2 id="quick-answer">The quick answer for {year}</h2>
+      <p>Paid biweekly on Fridays? You're in one of exactly two groups:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Your schedule</th>
+            <th>First {year} payday</th>
+            <th>Your extra-check months</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Group A — paid the 1st Friday</td>
+            <td>{fmtShort(a.anchor)}</td>
+            <td><strong>{joinNames(a.extraMonthNames)}</strong></td>
+          </tr>
+          <tr>
+            <td>Group B — paid the 2nd Friday</td>
+            <td>{fmtShort(b.anchor)}</td>
+            <td><strong>{joinNames(b.extraMonthNames)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Not paid on Fridays, or not sure which group you're in? The calculator above handles any payday and any
+        schedule — including holiday adjustments most lists ignore. See the full breakdown in
+        <a href={`/3-paycheck-months-${year}/`}>3-paycheck months in {year}</a> and
+        <a href="/3-paycheck-months-2027/">2027</a>.
+      </p>
+
+      <h2 id="use-it">Make the extra check count</h2>
+      <p>
+        The average biweekly worker's third check is a full week's take-home pay, twice a year. Used deliberately, that
+        can wipe out a credit-card balance, fund an emergency cushion, or cover the holidays without debt. Start with
+        our guide: <a href="/what-to-do-with-your-extra-paycheck/">what to do with your extra paycheck</a> — and if
+        you've heard your company has <a href="/27-pay-periods-2026/">27 pay periods in 2026</a>, here's what that
+        actually means for your check.
+      </p>
+    </article>
+
+    <AdSlot />
+    <FaqBlock items={faqItems} />
+  </div>
+</Base>
+
+<style>
+  .hero {
+    padding-block: clamp(2rem, 6vw, 3.5rem) clamp(1.4rem, 4vw, 2.2rem);
+    max-width: 46rem;
+  }
+  .kicker {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+    margin-bottom: 0.6rem;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--green);
+    position: relative;
+    white-space: nowrap;
+  }
+  /* hand-drawn gold underline on the money words */
+  h1 em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.02em;
+    height: 0.16em;
+    background: var(--gold);
+    opacity: 0.55;
+    border-radius: 999px;
+    transform: rotate(-0.6deg);
+    z-index: -1;
+  }
+  .lede {
+    margin-top: 1rem;
+    font-size: 1.15rem;
+    color: var(--ink-2);
+  }
+  article.prose {
+    margin-top: 3rem;
+  }
+</style>

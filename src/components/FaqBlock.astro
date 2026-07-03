@@ -1,0 +1,31 @@
+---
+/** Accessible FAQ accordion that emits FAQPage JSON-LD. Answers may contain HTML. */
+interface Props {
+  items: { q: string; a: string }[];
+  heading?: string;
+}
+const { items, heading = 'Frequently asked questions' } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a.replace(/<[^>]+>/g, '') },
+  })),
+};
+---
+
+<section class="faq prose">
+  <h2>{heading}</h2>
+  {
+    items.map(({ q, a }) => (
+      <details>
+        <summary>{q}</summary>
+        <p set:html={a} />
+      </details>
+    ))
+  }
+</section>
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

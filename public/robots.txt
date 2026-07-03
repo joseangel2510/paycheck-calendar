@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paydaycal.com/sitemap-index.xml
