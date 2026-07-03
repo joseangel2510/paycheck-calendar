@@ -1,0 +1,199 @@
+---
+/**
+ * Programmatic pages: "Is {Month} {Year} a 3-Paycheck Month?" for 2026–2027.
+ * Every fact on the page is computed by the payday engine at build time.
+ */
+import Base from '../../layouts/Base.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { SITE_URL, SITE_NAME } from '../../config';
+import { fridayFamilies, joinNames, fmtShort, fmt, MONTH_NAMES } from '../../lib/scenarios';
+import { computeYear } from '../../lib/payday';
+
+export function getStaticPaths() {
+  const paths = [];
+  for (const year of [2026, 2027]) {
+    for (let m = 1; m <= 12; m++) {
+      paths.push({ params: { slug: `${MONTH_NAMES[m - 1].toLowerCase()}-${year}` }, props: { year, m } });
+    }
+  }
+  return paths;
+}
+
+interface Props {
+  year: number;
+  m: number;
+}
+const { year, m } = Astro.props;
+const monthName = MONTH_NAMES[m - 1];
+const { a, b } = fridayFamilies(year);
+const aMonth = a.result.months[m - 1];
+const bMonth = b.result.months[m - 1];
+
+// Weekly (every-Friday) workers: how many Friday paydays this month?
+const weekly = computeYear({ anchor: a.anchor, frequency: 'weekly' }, year, { y: year, m: 1, d: 1 });
+const weeklyCount = weekly.months[m - 1].paydays.length;
+
+const anyExtra = aMonth.isExtra || bMonth.isExtra;
+const bothExtra = aMonth.isExtra && bMonth.isExtra;
+const verdict = bothExtra
+  ? `Yes — ${monthName} ${year} is a 3-paycheck month for both Friday pay schedules.`
+  : anyExtra
+    ? `Yes — for one of the two biweekly Friday schedules (${aMonth.isExtra ? 'Group A' : 'Group B'}).`
+    : `No — for biweekly Friday workers, ${monthName} ${year} has the usual two paydays.`;
+
+const shifts = [
+  ...aMonth.paydays.filter((p) => p.shiftedFrom).map((p) => ({ g: 'A', p })),
+  ...bMonth.paydays.filter((p) => p.shiftedFrom).map((p) => ({ g: 'B', p })),
+];
+
+const path = `/months/${monthName.toLowerCase()}-${year}/`;
+const title = `Is ${monthName} ${year} a 3-Paycheck Month? | PaydayCal`;
+const description = anyExtra
+  ? `${monthName} ${year} IS a 3-paycheck month for some biweekly schedules — see the exact payday dates and check whether your schedule qualifies.`
+  : `${monthName} ${year} has 2 paydays on biweekly Friday schedules. See the exact dates and find out which ${year} months pay you 3 times.`;
+
+// prev/next across the 24-month sequence
+const idx = (year - 2026) * 12 + (m - 1);
+const prevIdx = idx - 1;
+const nextIdx = idx + 1;
+const linkFor = (i: number) => {
+  if (i < 0 || i > 23) return null;
+  const y = 2026 + Math.floor(i / 12);
+  const mm = (i % 12) + 1;
+  return { href: `/months/${MONTH_NAMES[mm - 1].toLowerCase()}-${y}/`, label: `${MONTH_NAMES[mm - 1]} ${y}` };
+};
+const prev = linkFor(prevIdx);
+const next = linkFor(nextIdx);
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `Is ${monthName} ${year} a 3-Paycheck Month?`,
+    description,
+    dateModified: '2026-07-03',
+    author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    mainEntityOfPage: new URL(path, SITE_URL).href,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: `3 Paycheck Months ${year}`,
+        item: new URL(`/3-paycheck-months-${year}/`, SITE_URL).href,
+      },
+      { '@type': 'ListItem', position: 3, name: `${monthName} ${year}`, item: new URL(path, SITE_URL).href },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} path={path} schema={schema} current={String(year)}>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <span aria-hidden="true">›</span>
+      <a href={`/3-paycheck-months-${year}/`}>3 Paycheck Months {year}</a>
+      <span aria-hidden="true">›</span> <span>{monthName} {year}</span>
+    </nav>
+    <article class="prose">
+      <h1>Is {monthName} {year} a 3-Paycheck Month?</h1>
+      <p class="verdict"><strong>{verdict}</strong></p>
+      <p>
+        Whether {monthName} pays you three times depends on your payday anchor. For workers paid
+        <strong>biweekly on Fridays</strong> — the most common US schedule — there are exactly two groups in {year}:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Schedule</th>
+            <th>{monthName} {year} paydays</th>
+            <th>Checks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Group A (first {year} payday {fmtShort(a.anchor)})</td>
+            <td>{aMonth.paydays.map((p) => fmtShort(p)).join(', ')}</td>
+            <td>{aMonth.isExtra ? <strong>3 ★</strong> : aMonth.paydays.length}</td>
+          </tr>
+          <tr>
+            <td>Group B (first {year} payday {fmtShort(b.anchor)})</td>
+            <td>{bMonth.paydays.map((p) => fmtShort(p)).join(', ')}</td>
+            <td>{bMonth.isExtra ? <strong>3 ★</strong> : bMonth.paydays.length}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      {
+        shifts.length > 0 && (
+          <p>
+            📌 Holiday note: {shifts
+              .map((s) => `Group ${s.g}'s ${fmt(s.p.shiftedFrom!)} check actually pays out on ${fmt(s.p)}`)
+              .join('; ')} — deposits move to the previous business day when a payday hits a weekend or federal
+            holiday.
+          </p>
+        )
+      }
+
+      <p>
+        Paid <strong>every week</strong> on Fridays? {monthName} {year} has {weeklyCount} Friday paydays{
+          weeklyCount === 5 ? " — that's a 5-paycheck month for you. " : '. '
+        }
+        Paid semimonthly (like the 15th and last day)? You always get two checks a month, so there's no extra-check
+        month on that schedule — here's <a href="/biweekly-vs-semimonthly-pay/">why biweekly and semimonthly budgets
+        behave so differently</a>.
+      </p>
+
+      <h2>Not sure which group you're in?</h2>
+      <p>
+        Don't guess from a list — your schedule might not be anchored on Fridays at all. Enter your most recent payday
+        in the <a href="/">free paycheck calendar calculator</a> and get your personal {year} calendar with every
+        payday mapped, your 3-paycheck months highlighted, calendar export, and a printable version.
+      </p>
+      {
+        anyExtra && (
+          <p>
+            If {monthName} is one of your extra-check months, plan it before it lands:
+            <a href="/what-to-do-with-your-extra-paycheck/">what to do with your extra paycheck</a>.
+          </p>
+        )
+      }
+
+      <nav class="month-nav" aria-label="Adjacent months">
+        {prev ? <a href={prev.href}>← {prev.label}</a> : <span />}
+        <a href={`/3-paycheck-months-${year}/`}>All {year} months</a>
+        {next ? <a href={next.href}>{next.label} →</a> : <span />}
+      </nav>
+    </article>
+    <AdSlot />
+  </div>
+</Base>
+
+<style>
+  .crumbs {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    padding-block: 1.2rem 0.5rem;
+  }
+  .verdict {
+    font-size: 1.15rem;
+    padding: 0.9rem 1.1rem;
+    background: linear-gradient(120deg, var(--green-tint), transparent 70%);
+    border-left: 4px solid var(--green);
+    border-radius: var(--radius-sm);
+  }
+  .month-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: var(--hairline);
+    font-weight: 600;
+  }
+</style>

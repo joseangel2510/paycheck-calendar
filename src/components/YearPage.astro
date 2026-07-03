@@ -1,0 +1,175 @@
+---
+/** Shared template for the /3-paycheck-months-YYYY/ pages. All dates computed by the engine. */
+import Base from '../layouts/Base.astro';
+import FaqBlock from './FaqBlock.astro';
+import AdSlot from './AdSlot.astro';
+import { SITE_URL, SITE_NAME } from '../config';
+import { fridayFamilies, joinNames, fmtShort, MONTH_NAMES, type FridayFamily } from '../lib/scenarios';
+
+interface Props {
+  year: number;
+}
+const { year } = Astro.props;
+const { a, b } = fridayFamilies(year);
+const path = `/3-paycheck-months-${year}/`;
+const title = `3 Paycheck Months in ${year}: Both Pay Schedules | PaydayCal`;
+const description = `Paid biweekly? Your ${year} 3-paycheck months are ${joinNames(a.extraMonthNames)} or ${joinNames(b.extraMonthNames)} depending on your payday — see every date here.`;
+
+function monthDates(f: FridayFamily, m: number): string {
+  return f.result.months[m - 1].paydays.map((p) => fmtShort(p)).join(', ');
+}
+
+/** Holiday-shifted paydays worth calling out, across both families. */
+const shifts = [a, b].flatMap((f) =>
+  f.result.months.flatMap((mo) =>
+    mo.paydays
+      .filter((p) => p.shiftedFrom)
+      .map((p) => ({
+        group: f.key,
+        text: `the ${fmtShort(p.shiftedFrom!)} check pays out on ${fmtShort(p)}`,
+      })),
+  ),
+);
+
+const faqItems = [
+  {
+    q: `What are the 3-paycheck months in ${year} if I'm paid on Fridays?`,
+    a: `If your first ${year} payday is ${fmtShort(a.anchor)}, your extra-check months are ${joinNames(a.extraMonthNames)}. If it's ${fmtShort(b.anchor)}, they're ${joinNames(b.extraMonthNames)}. Paid on a different weekday? The pattern is the same — use the calculator on our home page for your exact schedule.`,
+  },
+  {
+    q: `Why do news articles disagree about ${year}'s 3-paycheck months?`,
+    a: 'Because there is no single answer — it depends on which week your paydays fall. Articles usually cover only the two Friday scenarios, and most ignore holiday adjustments that can quietly move a payday (and your bonus month).',
+  },
+  {
+    q: 'Do holiday paydays change my 3-paycheck months?',
+    a: 'Sometimes, yes. When a payday lands on a federal holiday, most employers deposit the previous business day. If that slides a January 1 check back to December 31, December inherits the extra check. Our calculator applies these adjustments automatically.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `3 Paycheck Months in ${year}`,
+    description,
+    dateModified: '2026-07-03',
+    author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    mainEntityOfPage: new URL(path, SITE_URL).href,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: `3 Paycheck Months ${year}`, item: new URL(path, SITE_URL).href },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} path={path} schema={schema} current={String(year)}>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <span aria-hidden="true">›</span> <span>3 Paycheck Months {year}</span>
+    </nav>
+    <article class="prose">
+      <h1>3-Paycheck Months in {year} (Both Pay Schedules)</h1>
+      <p>
+        If you're paid <strong>every two weeks</strong>, two months of {year} will hand you a third check. Which two
+        depends only on your payday anchor. For Friday paydays — the most common in the US — you're in one of exactly
+        two groups:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Group</th>
+            <th>First {year} payday</th>
+            <th>Your 3-paycheck months</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A — paid the 1st Friday of {year}</td>
+            <td>{fmtShort(a.anchor)}</td>
+            <td><strong>{joinNames(a.extraMonthNames)}</strong></td>
+          </tr>
+          <tr>
+            <td>B — paid the 2nd Friday of {year}</td>
+            <td>{fmtShort(b.anchor)}</td>
+            <td><strong>{joinNames(b.extraMonthNames)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Paid on a Thursday, or on some other rotation? Enter your last payday in the
+        <a href="/">free paycheck calendar calculator</a> — it maps your exact year in one second, holiday
+        adjustments included.
+      </p>
+
+      <h2>Every {year} payday, month by month</h2>
+      <p>Dates below are <em>deposit</em> dates: paydays that fall on a weekend or federal holiday are moved to the previous business day, exactly as most US payroll providers do.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Group A paydays</th>
+            <th>Group B paydays</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            MONTH_NAMES.map((name, i) => (
+              <tr>
+                <td>
+                  <a href={`/months/${name.toLowerCase()}-${year}/`}>{name}</a>
+                  {a.result.months[i].isExtra || b.result.months[i].isExtra ? ' ★' : ''}
+                </td>
+                <td class={a.result.months[i].isExtra ? 'extra-cell' : ''}>{monthDates(a, i + 1)}</td>
+                <td class={b.result.months[i].isExtra ? 'extra-cell' : ''}>{monthDates(b, i + 1)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      {
+        shifts.length > 0 && (
+          <>
+            <h2>Holiday adjustments in {year}</h2>
+            <p>These paydays move because of federal holidays or weekends — the detail most lists miss:</p>
+            <ul>
+              {shifts.map((s) => (
+                <li>
+                  <strong>Group {s.group}:</strong> {s.text}.
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      }
+
+      <h2>Make the extra checks count</h2>
+      <p>
+        Your third check has no bills assigned to it — that's what makes it powerful. Before it lands, read
+        <a href="/what-to-do-with-your-extra-paycheck/">what to do with your extra paycheck</a>, and if your employer
+        mentioned <a href="/27-pay-periods-2026/">27 pay periods</a>, here's what that means for your check size.
+      </p>
+    </article>
+
+    <AdSlot />
+    <FaqBlock items={faqItems} />
+  </div>
+</Base>
+
+<style>
+  .crumbs {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    padding-block: 1.2rem 0.5rem;
+  }
+  .extra-cell {
+    background: var(--gold-tint);
+    font-weight: 600;
+  }
+</style>

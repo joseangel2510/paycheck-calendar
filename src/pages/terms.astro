@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../config';
+---
+
+<Base
+  title="Terms of Use | PaydayCal"
+  description="Terms of use for PaydayCal: free informational payday calendars, no financial advice, standard disclaimers."
+  path="/terms/"
+>
+  <div class="wrap">
+    <article class="prose" style="padding-block: 2rem;">
+      <h1>Terms of Use</h1>
+      <p><em>Last updated: July 3, 2026</em></p>
+
+      <h2>What PaydayCal is</h2>
+      <p>
+        PaydayCal provides free, informational calculators and articles about pay schedules, payday calendars, and
+        related personal-finance topics. By using the site you agree to these terms.
+      </p>
+
+      <h2>Not financial, tax, or legal advice</h2>
+      <p>
+        Content on PaydayCal is general information, not advice for your specific situation. Actual pay dates are set
+        by your employer and payroll provider and can differ from the standard conventions we display (for example,
+        around holidays). Always confirm dates and amounts against your own pay stub, and consult a qualified
+        professional for financial, tax, or legal decisions.
+      </p>
+
+      <h2>No warranties</h2>
+      <p>
+        The site is provided "as is." We work hard to keep the math correct and the content current, but we make no
+        warranty that the site is error-free and accept no liability for decisions made based on it.
+      </p>
+
+      <h2>Acceptable use</h2>
+      <p>
+        You may link to, share, and print PaydayCal's output for personal use. You may not scrape, republish, or resell
+        the site's content or present it as your own.
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        PaydayCal displays ads served by third parties (Google AdSense). Advertisers are responsible for their own
+        content; an ad's presence is not our endorsement. See our <a href="/privacy-policy/">privacy policy</a> for how
+        advertising cookies work.
+      </p>
+
+      <h2>Changes</h2>
+      <p>We may update these terms; continued use after changes means you accept them.</p>
+
+      <h2>Contact</h2>
+      <p>Questions? Email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    </article>
+  </div>
+</Base>

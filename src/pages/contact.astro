@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT_EMAIL } from '../config';
+---
+
+<Base
+  title="Contact PaydayCal"
+  description="Questions, corrections, or feedback about PaydayCal's paycheck calendar tools? Here's how to reach us."
+  path="/contact/"
+>
+  <div class="wrap">
+    <article class="prose" style="padding-block: 2rem;">
+      <h1>Contact</h1>
+      <p>
+        Found a date that doesn't match your pay stub? Have an idea that would make the calculator more useful? We read
+        everything.
+      </p>
+      <p>
+        Email us at <a href={`mailto:${CONTACT_EMAIL}`}><strong>{CONTACT_EMAIL}</strong></a> and we'll get back to you
+        as soon as we can.
+      </p>
+      <p>When reporting a date issue, including your pay frequency and (rough) payday weekday helps us reproduce it — never send us personal or financial account information.</p>
+    </article>
+  </div>
+</Base>

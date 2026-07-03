@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="About PaydayCal"
+  description="Why PaydayCal exists: one fast, accurate, free tool that shows US workers their payday calendar and 3-paycheck months."
+  path="/about/"
+>
+  <div class="wrap">
+    <article class="prose" style="padding-block: 2rem;">
+      <h1>About PaydayCal</h1>
+      <p>
+        PaydayCal does one thing: it shows you <strong>your</strong> payday calendar — every deposit date for the year,
+        with your 3-paycheck months highlighted — from a single input: your last payday.
+      </p>
+      <p>
+        We built it because the existing answers were bad. News articles list generic "3-paycheck month" dates that
+        only apply to two specific Friday schedules, ignore holiday adjustments, and go stale the moment the year rolls
+        over. Payroll articles about 27-pay-period years are written for HR departments, not for the people wondering
+        whether their check will shrink. And none of them let you export your paydays to your phone's calendar or print
+        them for the fridge.
+      </p>
+      <h2>How the math works</h2>
+      <p>
+        PaydayCal computes your schedule locally in your browser — your dates never leave your device. Paydays that
+        fall on weekends or observed US federal holidays are moved to the previous business day, the convention used by
+        the vast majority of US payroll providers. The engine correctly handles the tricky cases, like a January 1
+        payday sliding back to December 31 and moving an entire "bonus month," and it flags rare 27-pay-period years
+        automatically.
+      </p>
+      <h2>Accuracy, honestly</h2>
+      <p>
+        Payroll is ultimately your employer's call: a few companies pay <em>after</em> holidays instead of before, and
+        some banks post deposits early. PaydayCal shows the standard convention and labels every adjusted date so you
+        can sanity-check it against your pay stub. If something looks off, we want to know —
+        <a href="/contact/">tell us here</a>.
+      </p>
+      <p>
+        PaydayCal is free, supported by advertising, and doesn't require an account. Read our
+        <a href="/privacy-policy/">privacy policy</a> and <a href="/terms/">terms of use</a>.
+      </p>
+    </article>
+  </div>
+</Base>
