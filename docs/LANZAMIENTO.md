@@ -1,7 +1,18 @@
 # Guía de lanzamiento — PaydayCal 🚀
 
 Guía paso a paso para el dueño. El sitio ya está construido, verificado y subido a GitHub
-(`github.com/joseangel2510/paycheck-calendar`). Lo que sigue requiere tus cuentas personales.
+(`github.com/joseangel2510/paycheck-calendar`).
+
+> **Actualización 2026-07-03:** Pasos 1 y 2 COMPLETADOS — el sitio está vivo en https://paydaycal.com.
+> Datos de AdSense verificados contra la documentación oficial de Google (julio 2026):
+> - El **país de la cuenta AdSense es tu país de residencia** (donde recibes correo postal). Es PERMANENTE — elegir "United States" porque la audiencia es gringa es el error clásico y obliga a cerrar la cuenta.
+> - Enviar el **formulario fiscal W-8BEN** apenas se abra la cuenta (Payments → Payments info → Manage settings → United States tax info). Con W-8BEN válido, la retención de EE.UU. para un publisher web fuera de EE.UU. es normalmente 0%; sin él, Google puede retener 24–30%.
+> - **No aplicar el día 1**: dominio recién nacido + revisión = riesgo de "Low value content". Aplicar tras 2–3 semanas de indexación y promoción.
+> - Tras la aprobación, activar en **Privacy & messaging** los DOS mensajes de consentimiento sin código: "European regulations" (obligatorio desde ene-2024 para visitas EEA/UK) y "US state regulations" (activar el toggle "All current and future supported US states").
+> - Verificación del sitio: combo snippet en `<head>` + `ads.txt` (línea exacta: `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`).
+> - Pagos: PIN postal al llegar a $10 (tarda ~3 semanas), umbral de cobro $100, transferencia a banco de TU país (~día 21 del mes siguiente).
+> - Search Console: propiedad tipo **Dominio** (verificación TXT en Porkbun); luego importar el sitio a Bing en https://www.bing.com/webmasters (botón Import, 2 min).
+> - Email de contacto: Porkbun ofrece **email forwarding gratis** (Domain Management → ícono de sobre → contact@ → tu Gmail). Requiere mantener los nameservers de Porkbun.
 
 ---
 
