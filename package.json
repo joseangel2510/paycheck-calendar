@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
+    "@fontsource/fraunces": "^5.2.9",
+    "@fontsource/public-sans": "^5.2.7",
     "astro": "^5.1.0"
   },
   "devDependencies": {

@@ -1,0 +1,102 @@
+---
+import '@fontsource/fraunces/latin-600.css';
+import '@fontsource/fraunces/latin-700.css';
+import '@fontsource/public-sans/latin-400.css';
+import '@fontsource/public-sans/latin-600.css';
+import '../styles/global.css';
+import { SITE_URL, SITE_NAME, ADSENSE_CLIENT_ID } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Page path with trailing slash, e.g. "/3-paycheck-months-2026/". */
+  path: string;
+  /** JSON-LD objects to embed. */
+  schema?: object[];
+  /** Nav highlight: 'home' | '2026' | '2027' | 'guides'. */
+  current?: string;
+}
+
+const { title, description, path, schema = [], current } = Astro.props;
+const canonical = new URL(path, SITE_URL).href;
+const ogImage = new URL('/og.png', SITE_URL).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    {
+      ADSENSE_CLIENT_ID && (
+        <script
+          is:inline
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+          crossorigin="anonymous"
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a href="/" class="wordmark" aria-label={`${SITE_NAME} home`}>
+          <svg class="coin" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="11" fill="#F0B429"></circle>
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="#C78F1A" stroke-width="1.4" stroke-dasharray="2.4 1.6"></circle>
+            <text x="12" y="16.4" text-anchor="middle" font-family="Georgia, serif" font-weight="700" font-size="12" fill="#7D5A10">$</text>
+          </svg>
+          <span>Payday<em>Cal</em></span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/" aria-current={current === 'home' ? 'page' : undefined}>Calculator</a>
+          <a href="/3-paycheck-months-2026/" aria-current={current === '2026' ? 'page' : undefined}>2026</a>
+          <a href="/3-paycheck-months-2027/" aria-current={current === '2027' ? 'page' : undefined}>2027</a>
+          <a href="/what-to-do-with-your-extra-paycheck/" aria-current={current === 'guides' ? 'page' : undefined}>Guides</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <nav aria-label="Footer">
+          <a href="/3-paycheck-months-2026/">3-Paycheck Months 2026</a>
+          <a href="/3-paycheck-months-2027/">3-Paycheck Months 2027</a>
+          <a href="/27-pay-periods-2026/">27 Pay Periods in 2026</a>
+          <a href="/what-to-do-with-your-extra-paycheck/">Extra Paycheck Guide</a>
+          <a href="/biweekly-vs-semimonthly-pay/">Biweekly vs Semimonthly</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy-policy/">Privacy Policy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+        <p>
+          {SITE_NAME} shows general payday math for informational purposes only — it is not financial, tax, or legal
+          advice. Pay dates can vary by employer and payroll provider; always confirm with your own pay stub or HR.
+        </p>
+        <p>© 2026 {SITE_NAME}. Made for everyone who budgets paycheck to paycheck.</p>
+      </div>
+    </footer>
+  </body>
+</html>

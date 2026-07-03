@@ -1,0 +1,33 @@
+---
+/**
+ * Google AdSense unit — renders nothing until ADSENSE_CLIENT_ID is set in
+ * src/config.ts (post-approval), so the layout never shows empty boxes.
+ */
+import { ADSENSE_CLIENT_ID } from '../config';
+
+interface Props {
+  /** Ad unit slot id from the AdSense dashboard (optional with Auto ads). */
+  slot?: string;
+  format?: string;
+}
+
+const { slot, format = 'auto' } = Astro.props;
+---
+
+{
+  ADSENSE_CLIENT_ID && (
+    <div class="adsense-slot" style="margin-block: 1.5rem; min-height: 90px;">
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={ADSENSE_CLIENT_ID}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
+      <script is:inline>
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  )
+}
