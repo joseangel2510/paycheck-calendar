@@ -11,8 +11,9 @@ Guía paso a paso para el dueño. El sitio ya está construido, verificado y sub
 > - Tras la aprobación, activar en **Privacy & messaging** los DOS mensajes de consentimiento sin código: "European regulations" (obligatorio desde ene-2024 para visitas EEA/UK) y "US state regulations" (activar el toggle "All current and future supported US states").
 > - Verificación del sitio: combo snippet en `<head>` + `ads.txt` (línea exacta: `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`).
 > - Pagos: PIN postal al llegar a $10 (tarda ~3 semanas), umbral de cobro $100, transferencia a banco de TU país (~día 21 del mes siguiente).
-> - Search Console: propiedad tipo **Dominio** (verificación TXT en Porkbun); luego importar el sitio a Bing en https://www.bing.com/webmasters (botón Import, 2 min).
-> - Email de contacto: Porkbun ofrece **email forwarding gratis** (Domain Management → ícono de sobre → contact@ → tu Gmail). Requiere mantener los nameservers de Porkbun.
+> - Search Console: propiedad tipo **Dominio** (verificación TXT); luego importar el sitio a Bing en https://www.bing.com/webmasters (botón Import, 2 min).
+> - **El dominio se compró en HOSTINGER** (nameservers dns-parking.com confirmados). Todos los registros DNS se agregan en hPanel: hpanel.hostinger.com → Domains → paydaycal.com → DNS / Nameservers.
+> - Email de contacto: Hostinger NO regala forwarding con dominio solo (su email es de pago). Solución gratis: **ImprovMX** (improvmx.com, plan free-forever, solo recepción/reenvío) — agregar sus 2 registros MX + 1 TXT (SPF) en el DNS de Hostinger y contact@paydaycal.com reenvía al Gmail del dueño.
 
 ---
 
