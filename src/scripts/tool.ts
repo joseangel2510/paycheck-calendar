@@ -115,9 +115,9 @@ function renderStats(r: YearResult): void {
 
   const row = $('.stat-long-year-row');
   row.hidden = !r.isLongYear;
-  if (r.isLongYear) {
-    $('.stat-long-year').textContent = `${r.scheduledCount} pay periods this year (a rare “extra period” year)`;
-  }
+  $('.stat-long-year').textContent = r.isLongYear
+    ? `${r.scheduledCount} pay periods this year (a rare “extra period” year)`
+    : '';
 }
 
 function renderCalendar(r: YearResult): void {
@@ -282,7 +282,7 @@ semiSelect.addEventListener('change', update);
 dateInput.addEventListener('change', update);
 dateInput.addEventListener('input', update);
 
-(function restoreFromHash(): void {
+function restoreFromHash(): void {
   const params = new URLSearchParams(location.hash.slice(1));
   const d = params.get('d');
   const f = params.get('f');
@@ -291,4 +291,8 @@ dateInput.addEventListener('input', update);
   if (f && ['weekly', 'biweekly', 'semimonthly', 'monthly'].includes(f)) freqSelect.value = f;
   if (s && ['first-fifteenth', 'fifteenth-last'].includes(s)) semiSelect.value = s;
   update();
-})();
+}
+
+// Re-restore when a shared link changes the hash on an already-open page.
+window.addEventListener('hashchange', restoreFromHash);
+restoreFromHash();
