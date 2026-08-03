@@ -1,0 +1,40 @@
+---
+import Article from '../layouts/Article.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import body from '../guides/how-to-budget-biweekly-pay.html?raw';
+
+const title = "How to Budget on a Biweekly Paycheck";
+const description = "Learn how to budget biweekly: build your month on two paychecks so the two 3-paycheck months become pure surplus for debt and savings.";
+const h1 = "How to Budget on a Biweekly Paycheck";
+const faqItems = [
+  {
+    "q": "How do you budget on a biweekly paycheck?",
+    "a": "Build your entire monthly budget on just two paychecks. Every month has at least two paydays, so if two checks cover all your bills and spending, your budget always balances. The two extra checks you get in a 3-paycheck month then become pure surplus instead of getting absorbed."
+  },
+  {
+    "q": "Why budget on two paychecks instead of my average monthly income?",
+    "a": "Because 26 biweekly checks a year don't divide evenly into 12 months. Ten months bring two paydays and only two months bring three. Budgeting on the two you always get keeps every normal month covered, while the occasional third check becomes bonus money rather than something you were relying on."
+  },
+  {
+    "q": "Should I assign each bill to a specific paycheck?",
+    "a": "Yes. Split your fixed bills between the first and second paycheck of the month so no single check gets overloaded. Put your biggest bill, like rent, on the check that lands right before it's due. This paycheck-to-bill mapping keeps your checking balance from dipping dangerously low."
+  },
+  {
+    "q": "How does aligning bills to my payday prevent overdrafts?",
+    "a": "When a bill is due right after a paycheck arrives, your balance is highest exactly when the money leaves. That closes the float, the low-balance stretch before your next check, which is where overdraft fees usually happen. Most billers will move your due date on request so it falls just after payday."
+  },
+  {
+    "q": "What should I do with the extra paycheck in a 3-paycheck month?",
+    "a": "Give it a job before it arrives. Since your bills are already covered by two checks, route the third toward a starter emergency fund, high-interest debt, or a fuller savings cushion. Leaving it sitting in checking is how it quietly gets spent."
+  },
+  {
+    "q": "Is biweekly pay the same as semi-monthly pay?",
+    "a": "No. Biweekly means a check every two weeks, 26 a year, with two 3-paycheck months. Semi-monthly means two fixed dates each month, such as the 15th and the last day, for exactly 24 checks a year and no extra-paycheck months. The surplus strategy only applies to biweekly pay."
+  }
+];
+---
+
+<Article title={title} description={description} path="/how-to-budget-biweekly-pay/" h1={h1} updated="2026-08-03">
+  <Fragment set:html={body} />
+  <FaqBlock items={faqItems} />
+</Article>

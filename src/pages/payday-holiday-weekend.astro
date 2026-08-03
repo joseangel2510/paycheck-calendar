@@ -1,0 +1,36 @@
+---
+import Article from '../layouts/Article.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import body from '../guides/payday-holiday-weekend.html?raw';
+
+const title = "Payday on a Holiday or Weekend: When You Get Paid";
+const description = "Payday on a holiday or weekend? Most employers pay the previous business day. See real deposit dates, ACH timing, and 2026-2027 holiday pay dates.";
+const h1 = "Payday on a Holiday or Weekend: When You Get Paid";
+const faqItems = [
+  {
+    "q": "If my payday falls on a holiday, when do I actually get paid?",
+    "a": "Most US employers follow the previous-business-day rule: if your scheduled pay date lands on a federal holiday when banks are closed, they deposit your pay on the last business day before it. So a Friday payday that hits a holiday usually arrives on Thursday. It's a widespread convention, not a law, so a few employers shift forward instead — confirm with your payroll the first time it happens."
+  },
+  {
+    "q": "Does direct deposit come early on a holiday?",
+    "a": "It can, for two reasons. The previous-business-day shift can move the deposit date itself earlier, and many banks (especially online banks and fintech accounts) release ACH credits the evening before the official effective date. A more traditional bank may hold the credit until the effective morning, which is why two people with the same employer sometimes see their pay on different days."
+  },
+  {
+    "q": "What happens when my payday falls on a weekend?",
+    "a": "The same previous-business-day rule applies. A Saturday or Sunday pay date is typically deposited on the Friday before, because the ACH network and banks only settle transfers on business days. Some banks that offer early direct deposit may post it even sooner, but Friday is the standard expectation for a weekend pay date."
+  },
+  {
+    "q": "Can a holiday shift change which month is my 3-paycheck month?",
+    "a": "Yes. When the previous-business-day rule pulls a payday backward across a month boundary, it can move a check from one month into the prior one. That can turn an ordinary month into a three-paycheck month and leave the next month with only two. The total number of checks in the year never changes, but which month owns a check can flip, so count paychecks by their actual deposit date, not the scheduled one."
+  },
+  {
+    "q": "Which 2026 and 2027 holidays most often shift paydays?",
+    "a": "Independence Day and Christmas are the big ones both years: July 4, 2026 is observed on Friday, July 3, and Christmas falls on Friday, December 25, 2026 — right where most weekly and biweekly workers are paid. In 2027, Christmas is observed Friday, December 24 and Independence Day on Monday, July 5. Monday holidays like Memorial Day and Labor Day mainly affect Monday-paid workers, while Columbus Day and Veterans Day close banks but many employers still run payroll."
+  }
+];
+---
+
+<Article title={title} description={description} path="/payday-holiday-weekend/" h1={h1} updated="2026-08-03">
+  <Fragment set:html={body} />
+  <FaqBlock items={faqItems} />
+</Article>

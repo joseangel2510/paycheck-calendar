@@ -1,0 +1,135 @@
+---
+/** Guides hub — links every guide/article for internal linking + discovery. */
+import Base from '../../layouts/Base.astro';
+import { SITE_URL, SITE_NAME } from '../../config';
+
+const path = '/guides/';
+const title = 'PaydayCal Guides: Paycheck Timing & Budgeting';
+const description =
+  'Free guides on 3-paycheck months, biweekly budgeting, payday timing on holidays, and making the most of every check. No sign-up.';
+
+const groups = [
+  {
+    heading: 'Find your paydays',
+    items: [
+      { href: '/how-to-find-your-3-paycheck-months/', title: 'How to Find Your 3-Paycheck Months', blurb: 'The manual method, why your months are personal, and the holiday shift most guides miss.' },
+      { href: '/3-paycheck-months-2026/', title: '3-Paycheck Months in 2026', blurb: 'Both Friday pay schedules, month by month, with holiday adjustments.' },
+      { href: '/3-paycheck-months-2027/', title: '3-Paycheck Months in 2027', blurb: 'Your 2027 extra-check months for each biweekly schedule.' },
+      { href: '/5-paycheck-months-2026/', title: '5-Paycheck Months (Weekly Pay)', blurb: 'Paid weekly? See your 5-paycheck months in 2026 and 2027 by payday weekday.' },
+      { href: '/payday-holiday-weekend/', title: 'Payday on a Holiday or Weekend', blurb: 'When you actually get paid when a payday lands on a holiday or weekend.' },
+    ],
+  },
+  {
+    heading: 'Budget & save',
+    items: [
+      { href: '/how-to-budget-biweekly-pay/', title: 'How to Budget on a Biweekly Paycheck', blurb: 'Build your month on two checks so the two 3-paycheck months become pure surplus.' },
+      { href: '/what-to-do-with-your-extra-paycheck/', title: 'What to Do With Your Extra Paycheck', blurb: 'A simple priority ladder for your third check, with a worked example.' },
+      { href: '/christmas-sinking-fund/', title: 'Christmas Sinking Fund', blurb: 'How much to set aside per payday so December never lands on a credit card.' },
+    ],
+  },
+  {
+    heading: 'Pay schedules explained',
+    items: [
+      { href: '/biweekly-vs-semimonthly-pay/', title: 'Biweekly vs Semimonthly Pay', blurb: '26 checks vs 24 — why only biweekly gets extra-paycheck months.' },
+      { href: '/27-pay-periods-2026/', title: '27 Pay Periods in 2026', blurb: 'What a 27-paycheck year means for salaried vs hourly workers.' },
+      { href: '/27-paycheck-years-explained/', title: '27-Paycheck Years Explained', blurb: 'The ~11-year cycle and why it depends on your payday anchor.' },
+    ],
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: title,
+    description,
+    url: new URL(path, SITE_URL).href,
+    isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: groups
+      .flatMap((g) => g.items)
+      .map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.title, url: new URL(it.href, SITE_URL).href })),
+  },
+];
+---
+
+<Base title={title} description={description} path={path} schema={schema} current="guides">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <span aria-hidden="true">›</span> <span>Guides</span>
+    </nav>
+    <article class="prose">
+      <h1>PaydayCal Guides</h1>
+      <p>
+        Plain-English guides to paycheck timing, biweekly budgeting, and making the most of every check. Want your own
+        dates instead of a generic list? <a href="/">Run your payday through the free calculator</a>.
+      </p>
+    </article>
+
+    {
+      groups.map((g) => (
+        <section class="guide-group">
+          <h2>{g.heading}</h2>
+          <ul class="guide-list">
+            {g.items.map((it) => (
+              <li>
+                <a href={it.href}>
+                  <strong>{it.title}</strong>
+                  <span>{it.blurb}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .crumbs {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    padding-block: 1.2rem 0.5rem;
+  }
+  .guide-group {
+    margin-top: 2rem;
+  }
+  .guide-group h2 {
+    font-family: var(--font-display, inherit);
+    margin-bottom: 0.8rem;
+  }
+  .guide-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .guide-list a {
+    display: block;
+    padding: 1rem 1.2rem;
+    background: var(--card, #fff);
+    border: 1px solid var(--line, rgba(16, 24, 38, 0.12));
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .guide-list a:hover {
+    border-color: var(--green, #0e7c4a);
+    transform: translateY(-1px);
+  }
+  .guide-list strong {
+    display: block;
+    color: var(--green, #0e7c4a);
+    margin-bottom: 0.2rem;
+  }
+  .guide-list span {
+    color: var(--ink-2, #5b6474);
+    font-size: 0.95rem;
+  }
+</style>

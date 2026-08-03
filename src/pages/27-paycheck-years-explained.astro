@@ -1,0 +1,40 @@
+---
+import Article from '../layouts/Article.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import body from '../guides/27-paycheck-years-explained.html?raw';
+
+const title = "27-Paycheck Years: When the Next One Hits";
+const description = "Why some years have 27 pay periods, the ~11-year cycle, why it depends on your payday anchor, and what a 27-paycheck year means for your check.";
+const h1 = "27-Paycheck Years: When the Next One Hits";
+const faqItems = [
+  {
+    "q": "Why do some years have 27 pay periods instead of 26?",
+    "a": "Biweekly pay lands every 14 days, and 26 checks cover only 364 days. A calendar year is 365 or 366 days, so your paydays drift one to two days earlier each year. Eventually that drift accumulates enough for a 27th payday to fall before December 31 arrives, creating a 27-pay-period year. Nothing is added to your schedule; the calendar just catches up with the leftover days."
+  },
+  {
+    "q": "How often do 27 pay periods happen?",
+    "a": "For biweekly pay, roughly once every 11 years, though the exact gap can stretch to 12 because leap years don't line up evenly with your paydays. Weekly schedules hit their version, a 53rd paycheck, more often, about every five to six years, since their leftover day only has to fill a seven-day window."
+  },
+  {
+    "q": "Does everyone get 27 pay periods in the same year?",
+    "a": "No. Whether a year holds 27 paydays depends on your anchor, the exact date your schedule pays on. Two coworkers both paid every other Friday but offset by a single week can hit their 27-check years in completely different years. Only your own payday date determines yours, so any universal list is a guess."
+  },
+  {
+    "q": "Will a 27-paycheck year make my paychecks smaller?",
+    "a": "If you're hourly, no. It's simply one extra check, because you're paid for the hours you work. If you're salaried, it depends on your employer: some keep each check the same and pay you 27 of them (about 3.8% more that year), while others divide your annual salary by 27, making each check about 3.7% smaller with the same yearly total."
+  },
+  {
+    "q": "Can a biweekly schedule ever have 25 or 28 paydays in a year?",
+    "a": "No. A clean biweekly cadence only ever produces 26 or 27 paydays in a calendar year, and you never get two 27-check years back to back. The year right after a 27-paycheck year always returns to 26 before the drift slowly builds toward the next one."
+  },
+  {
+    "q": "When is my next 27-paycheck year?",
+    "a": "There's no universal answer, because it's set by your payday anchor. Enter your last payday and pay frequency into the paycheck calendar tool and it flags a 27-check year automatically, adjusting for the weekend and holiday shifts that throw off counting by hand on a paper calendar."
+  }
+];
+---
+
+<Article title={title} description={description} path="/27-paycheck-years-explained/" h1={h1} updated="2026-08-03">
+  <Fragment set:html={body} />
+  <FaqBlock items={faqItems} />
+</Article>

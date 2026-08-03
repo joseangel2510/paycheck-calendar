@@ -1,0 +1,160 @@
+---
+/** Weekly-pay 5-paycheck months for 2026 & 2027. All dates computed by the engine. */
+import Base from '../layouts/Base.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { SITE_URL, SITE_NAME } from '../config';
+import { weeklyFamilies, joinNames } from '../lib/scenarios';
+
+const y1 = 2026;
+const y2 = 2027;
+const fam1 = weeklyFamilies(y1);
+const fam2 = weeklyFamilies(y2);
+
+const path = '/5-paycheck-months-2026/';
+const title = '5-Paycheck Months in 2026 & 2027 (Weekly Pay)';
+const description =
+  'Paid weekly? See which months have 5 paychecks in 2026 and 2027 based on your payday, Monday through Friday. Free payday calendar, no sign-up.';
+
+const faqItems = [
+  {
+    q: 'How many 5-paycheck months are there if I am paid weekly?',
+    a: 'Most months have four paydays, but a few each year have five. In a normal 52-week year you get four 5-paycheck months; in a 53-week year you get five. Which specific months depends on the weekday you are paid.',
+  },
+  {
+    q: 'Why do some months have 5 paychecks?',
+    a: 'A year is 52 weeks plus one extra day (two in a leap year), so weekly paydays slowly drift through the calendar. Any month that happens to contain five of your payday weekday gives you a fifth check that month.',
+  },
+  {
+    q: 'Is a 5-paycheck month the same as a 3-paycheck month?',
+    a: 'It is the weekly-pay version. If you are paid weekly you get a bonus fifth check a few months a year; if you are paid every two weeks you get a bonus third check twice a year.',
+  },
+  {
+    q: 'How do I know my exact 5-paycheck months?',
+    a: 'Enter your last payday and choose the weekly option in the free calculator on our home page. It maps your whole year and highlights every month with a fifth check, including any holiday adjustments.',
+  },
+];
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: '5-Paycheck Months in 2026 & 2027',
+    description,
+    dateModified: '2026-08-02',
+    author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    mainEntityOfPage: new URL(path, SITE_URL).href,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: '5-Paycheck Months 2026', item: new URL(path, SITE_URL).href },
+    ],
+  },
+];
+---
+
+<Base title={title} description={description} path={path} schema={schema} current="guides">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> <span aria-hidden="true">›</span> <span>5-Paycheck Months 2026</span>
+    </nav>
+    <article class="prose">
+      <h1>5-Paycheck Months in 2026 &amp; 2027 (Weekly Pay)</h1>
+      <p>
+        If you're paid <strong>every week</strong>, most months bring four paychecks — but a few each year hand you a
+        <strong>fifth</strong>. It's the weekly-pay cousin of the <a href="/3-paycheck-months-2026/">3-paycheck month</a>
+        that biweekly workers get: a check that lands after the month's bills are already covered. Which months are your
+        5-paycheck months depends on <em>one thing</em> — the weekday you're paid.
+      </p>
+      <p>
+        Below are the 5-paycheck months for every weekday schedule, Monday through Friday. Dates are counted by
+        <em>deposit</em> date: a payday on a weekend or federal holiday moves to the previous business day, exactly as
+        most US payroll runs. Want your own schedule in one click?
+        <a href="/">Run it through the free calculator</a> (choose the weekly option).
+      </p>
+
+      <h2>5-paycheck months in 2026</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>If you're paid weekly on…</th>
+            <th>Your 2026 5-paycheck months</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            fam1.map((f) => (
+              <tr>
+                <td>{f.weekday}</td>
+                <td><strong>{joinNames(f.extraMonthNames)}</strong></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <h2>5-paycheck months in 2027</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>If you're paid weekly on…</th>
+            <th>Your 2027 5-paycheck months</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            fam2.map((f) => (
+              <tr>
+                <td>{f.weekday}</td>
+                <td><strong>{joinNames(f.extraMonthNames)}</strong></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+
+      <h2>Why some months have 5 paychecks</h2>
+      <p>
+        A calendar year is 52 weeks plus one leftover day — two in a leap year. That drift means your payday weekday
+        slowly marches across the calendar, and any month that ends up containing <strong>five</strong> of that weekday
+        gives you a fifth paycheck. Over a full year it happens four times (or five times in a 53-week year), spaced
+        roughly every three months.
+      </p>
+      <p>
+        Because it's tied to <em>your</em> payday, a generic list can be wrong for you — being paid on Friday versus
+        Monday shifts which months are the bonus ones. A federal-holiday shift can nudge a check into a different month
+        too, which is exactly the kind of detail hand-counting misses.
+      </p>
+
+      <h2>Make the fifth check count</h2>
+      <p>
+        A 5-paycheck month works best when you plan for it. Build your budget on four checks a month, and treat the
+        fifth as surplus — the same idea covered in
+        <a href="/what-to-do-with-your-extra-paycheck/">what to do with your extra paycheck</a>. Knowing the month is
+        coming is half the battle.
+      </p>
+
+      <h2>Find your exact 5-paycheck months</h2>
+      <p>
+        The tables above assume a clean weekly schedule. For <em>your</em> exact dates — holiday shifts included — enter
+        your last payday in the <a href="/">free paycheck calculator</a>, pick weekly, and it maps your whole year in a
+        second, with a printable calendar and a phone-calendar export.
+      </p>
+    </article>
+
+    <AdSlot />
+    <FaqBlock items={faqItems} />
+  </div>
+</Base>
+
+<style>
+  .crumbs {
+    font-size: 0.85rem;
+    color: var(--ink-2);
+    padding-block: 1.2rem 0.5rem;
+  }
+</style>

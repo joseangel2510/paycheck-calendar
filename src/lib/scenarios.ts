@@ -44,6 +44,50 @@ export function fridayFamilies(year: number): { a: FridayFamily; b: FridayFamily
   return { a: family(year, 'A'), b: family(year, 'B') };
 }
 
+const WEEKDAY_NAMES = [
+  'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+] as const;
+
+export interface WeeklyFamily {
+  /** Weekday people are paid on, e.g. 'Friday'. */
+  weekday: string;
+  /** 1 = Monday … 5 = Friday. */
+  dow: number;
+  anchor: Ymd;
+  result: YearResult;
+  /** Month names with a 5th weekly paycheck (by actual deposit date). */
+  extraMonthNames: string[];
+}
+
+function firstWeekday(year: number, dow: number): number {
+  for (let d = 1; d <= 7; d++) {
+    if (new Date(year, 0, d).getDay() === dow) return d;
+  }
+  /* istanbul ignore next */ throw new Error('unreachable');
+}
+
+/**
+ * The five business-weekday weekly-pay schedules for a year (Mon–Fri).
+ * A weekly payday scheduled on Sat/Sun deposits the previous business day, so
+ * Mon–Fri covers every distinct real-world deposit schedule.
+ */
+export function weeklyFamilies(year: number): WeeklyFamily[] {
+  const out: WeeklyFamily[] = [];
+  for (let dow = 1; dow <= 5; dow++) {
+    const d = firstWeekday(year, dow);
+    const anchor: Ymd = { y: year, m: 1, d };
+    const result = computeYear({ anchor, frequency: 'weekly' }, year, { y: year, m: 1, d: 1 });
+    out.push({
+      weekday: WEEKDAY_NAMES[dow],
+      dow,
+      anchor,
+      result,
+      extraMonthNames: result.extraMonths.map((m) => MONTH_NAMES[m - 1]),
+    });
+  }
+  return out;
+}
+
 export function fmt(d: Ymd): string {
   return `${MONTH_NAMES[d.m - 1]} ${d.d}, ${d.y}`;
 }

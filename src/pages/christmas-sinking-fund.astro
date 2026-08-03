@@ -1,0 +1,36 @@
+---
+import Article from '../layouts/Article.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import body from '../guides/christmas-sinking-fund.html?raw';
+
+const title = "Christmas Sinking Fund: Save by Payday";
+const description = "Build a Christmas sinking fund by saving a set amount each payday. Learn how much to save per paycheck so December is paid in cash, not on credit.";
+const h1 = "Christmas Sinking Fund: Save by Payday";
+const faqItems = [
+  {
+    "q": "What is a Christmas sinking fund?",
+    "a": "A Christmas sinking fund is money you set aside a little at a time, out of each paycheck, to cover a holiday expense you already know is coming. Because you save ahead instead of charging the season to a card, you pay exactly what you spend: $600 for a $600 Christmas, with no interest and no January statement shock."
+  },
+  {
+    "q": "How much should I save per paycheck for Christmas?",
+    "a": "Divide your total holiday budget by the number of paydays left before about December 20. For example, a $600 goal with ten biweekly paychecks remaining works out to about $60 per check. The earlier you start, the more paydays share the cost and the smaller each transfer is."
+  },
+  {
+    "q": "When should I start a holiday sinking fund?",
+    "a": "As early as possible, ideally in late summer. Every week you wait, the same total has to come out of fewer paychecks, so each bite gets bigger. Starting in August a $600 goal might be $60 a check, but waiting until November could push it to $200 or more per check, right when everything else is expensive."
+  },
+  {
+    "q": "Why is a sinking fund better than putting Christmas on a credit card?",
+    "a": "A sinking fund costs you only what you actually spend. Carrying $600 of holiday spending on a card at around 24% APR and paying it off over six months adds roughly $40 to $50 in interest and drags the bill into spring. Saving the money ahead of time removes both the interest and the debt entirely."
+  },
+  {
+    "q": "Can a 3-paycheck month help fund Christmas?",
+    "a": "Yes. If you are paid biweekly and your budget runs on two checks a month, the third check in a 3-paycheck month arrives with no bills attached. If one of those months falls before the holidays, routing most of that extra check into your fund can cover the bulk of your holiday goal in a single move."
+  }
+];
+---
+
+<Article title={title} description={description} path="/christmas-sinking-fund/" h1={h1} updated="2026-08-03">
+  <Fragment set:html={body} />
+  <FaqBlock items={faqItems} />
+</Article>

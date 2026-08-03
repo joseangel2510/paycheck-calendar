@@ -1,0 +1,36 @@
+---
+import Article from '../layouts/Article.astro';
+import FaqBlock from '../components/FaqBlock.astro';
+import body from '../guides/how-to-find-your-3-paycheck-months.html?raw';
+
+const title = "How to Find Your 3-Paycheck Months";
+const description = "Learn how to find my 3 paycheck months: count biweekly paydays on a calendar, why your months are personal, and the holiday shift most guides miss.";
+const h1 = "How to Find Your 3-Paycheck Months";
+const faqItems = [
+  {
+    "q": "Why does a biweekly schedule give you 3-paycheck months?",
+    "a": "A biweekly paycheck lands every 14 days, and 52 weeks a year divided by two equals 26 paychecks. If every month got exactly two, you'd only have 24, so the two leftover checks land in two months during the year — giving each of those months a third payday."
+  },
+  {
+    "q": "How do I find my 3-paycheck months by hand?",
+    "a": "Find your next payday and note its date, then count forward exactly 14 days at a time across a calendar through December. Go month by month and circle the two months that contain three pay dates instead of the usual two. Those are your 3-paycheck months."
+  },
+  {
+    "q": "Are 3-paycheck months the same for everyone paid biweekly?",
+    "a": "No. Your 3-paycheck months depend on the exact date and weekday of your payday, so they vary from person to person. Two coworkers both paid every other Friday can have different months if their pay weeks are offset by one week — for example, one might get May and October while the other gets January and July."
+  },
+  {
+    "q": "Do semi-monthly employees ever get a 3-paycheck month?",
+    "a": "No. Semi-monthly pay means two checks on fixed dates each month, such as the 15th and the last day, which totals exactly 24 checks a year. Because the count is tied to the calendar month, a semi-monthly schedule never produces a third paycheck. Three-paycheck months only happen on biweekly or weekly schedules."
+  },
+  {
+    "q": "Can a weekend or holiday change which month has 3 paychecks?",
+    "a": "Yes. When a payday falls on a weekend or federal holiday, most employers deposit on the previous business day, which can move a check into a different month. For example, a check scheduled for Friday, January 1, 2027 (New Year's Day) is paid on Thursday, December 31, 2026 — making December, not January, the real 3-paycheck month. A plain 14-day count misses this."
+  }
+];
+---
+
+<Article title={title} description={description} path="/how-to-find-your-3-paycheck-months/" h1={h1} updated="2026-08-03">
+  <Fragment set:html={body} />
+  <FaqBlock items={faqItems} />
+</Article>
