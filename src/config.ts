@@ -9,4 +9,4 @@ export const CONTACT_EMAIL = 'contact@paydaycal.com'; // update after domain pur
  * Leave empty until AdSense approval — ad slots and the AdSense <script>
  * render only when this is non-empty.
  */
-export const ADSENSE_CLIENT_ID = '';
+export const ADSENSE_CLIENT_ID = 'ca-pub-1772144192860934';

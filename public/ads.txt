@@ -1,4 +1,1 @@
-# PaydayCal ads.txt
-# After Google AdSense approval, replace this file's contents with the line
-# AdSense provides, e.g.:
-# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-1772144192860934, DIRECT, f08c47fec0942fa0
