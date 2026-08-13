@@ -15,9 +15,11 @@ interface Props {
   schema?: object[];
   /** Nav highlight: 'home' | '2026' | '2027' | 'guides'. */
   current?: string;
+  /** Emit a noindex robots meta for thin/templated pages (e.g. per-month pages). */
+  noindex?: boolean;
 }
 
-const { title, description, path, schema = [], current } = Astro.props;
+const { title, description, path, schema = [], current, noindex = false } = Astro.props;
 const canonical = new URL(path, SITE_URL).href;
 const ogImage = new URL('/og.png', SITE_URL).href;
 ---
@@ -30,6 +32,7 @@ const ogImage = new URL('/og.png', SITE_URL).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
